@@ -20,6 +20,6 @@
     "mysql": "latest",
     "serve-favicon": "~2.0.1",
     "nodegrass": "0.0.3",
-    "request": "~2.27.0"
+    "request": "~2.88.2"
   }
 }
