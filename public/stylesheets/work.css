@@ -1,0 +1,85 @@
+.work_content {
+    margin-top: 20px;
+}
+
+.work_content .sub {
+    margin: 30px 2px;
+}
+
+.work_content .sub .subTitle {
+    background: #D7D6D6;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.work_content .sub .subTitle .beginCol {
+    width: 515px;
+    display: inline-block;
+}
+
+.work_content .sub .subSubTitle .beginCol {
+    width: 250px;
+    display: inline-block;
+}
+
+.work_content .sub .articles .beginCol {
+    width: 250px;
+    display: inline-block;
+}
+
+.work_content .sub .articles {
+    margin: 15px 60px;
+    font-size: 16px;
+}
+
+.work_content .sub .people {
+     margin: 15px 20px;
+     font-size: 16px;
+}
+
+.work_content .sub .people .conDiv {
+    display: inline-block;
+    float: left;
+    margin-right: 50px;
+}
+
+.work_content .sub .people .conDiv p span.text-before{
+    width: 100px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 2rem;
+    line-height: 40px;
+    height: 40px;
+}
+
+.work_content .sub .people .conDiv img {
+     width: 140px;
+     heigth: 140px;
+ }
+
+.work_content .pull-right {
+    float: right;
+}
+
+.work_content .sub .subSubTitle {
+    padding: 10px;
+    background: #D7D6D6;
+    margin: 15px 60px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.work_content .sub .articles .articleTitle {
+    padding: 5px;
+    border-bottom: 1px solid #BDBABA;
+}
+
+.work_content .sub .margin-100 {
+    margin-left: 100px;
+    cursor: pointer;
+}
+
+.work_content .sub .margin-50 {
+    margin-left: 50px;
+    cursor: pointer;
+}

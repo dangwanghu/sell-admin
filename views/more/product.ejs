@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <% include ../header.ejs%>
+</head>
+<body>
+<% include ../top.ejs%>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <% include ../leftnav.ejs%>
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                    try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                </script>
+
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="/index">首页</a>
+                    </li>
+                    <li class="active">商品管理</li>
+                </ul><!-- .breadcrumb -->
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="table-header">
+                                    移动端商品展示内容修改
+                                    <a class="white" style="float: right;margin-right: 10px;text-decoration: underline;" href="javascript:save()">
+                                        保存
+                                    </a>
+                                </div>
+                                <form class="form-horizontal" role="form" id="editFrom">
+
+                                    <div class="space-4"></div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <div style="margin: 20px 0">
+                                                <span>标题：</span><input type="text" value="<%=product.title || ''%>" name="title" style="width: 400px;" />
+                                                <span style="margin-left: 50px;">原价：</span><input  style="width: 400px;" value="<%=product.orginPrice || ''%>" type="text" name="orginPrice" />
+                                            </div>
+                                            <div>
+                                                <span>已销售：</span><input type="text" name="sellerCount"  value="<%=product.sellerCount || ''%>" style="width: 400px;"  /> 瓶
+                                                <span style="margin-left: 50px;">配送费用：</span><input value="<%=product.sendGoodsFee || ''%>" style="width: 400px;"  type="text" name="sendGoodsFee" />
+                                            </div>
+                                            <div style="margin: 20px 0"><span>发货时间：</span><input value="<%=product.sendGoodsTime || ''%>" type="text" name="sendGoodsTime" style="width: 400px;" /></div>
+
+                                            <div>
+                                                <span>产品类型：</span><input type="text" value="<%=product.desc.productType || ''%>" name="productType" style="width: 400px;"  />
+                                                <span style="margin-left: 50px;">品牌：</span><input  value="<%=product.desc.brand || ''%>"  style="width: 400px;"  type="text" name="brand" />
+                                            </div>
+                                            <div style="margin: 20px 0">
+                                                <span>是否进口：</span>
+                                                <select name="isEntrance"  value="<%=product.desc.isEntrance || '0'%>" style="width: 400px;">
+                                                    <option value="1">是</option>
+                                                    <option value="0">否</option>
+                                                </select>
+                                                <span style="margin-left: 50px;">原产地：</span>
+                                                <input  style="width: 400px;" value="<%=product.desc.originPlace || ''%>"  type="text" name="originPlace" />
+                                            </div>
+                                            <div style="margin: 20px 0">
+                                                <span>等级：</span>
+                                                <input type="text" name="level"  value="<%=product.desc.level || ''%>" style="width: 400px;"  />
+                                                <span style="margin-left: 50px;">容量：</span>
+                                                <input  style="width: 400px;"  value="<%=product.desc.capacity || ''%>" type="text" name="capacity" /></div>
+                                            <div style="margin: 20px 0">
+                                                <span>品牌授权码：</span>
+                                                <input type="text"  value="<%=product.desc.authCode || ''%>" name="authCode" style="width: 400px;" />
+                                                <span style="margin-left: 50px;">葡萄酒类型：</span>
+                                                <input  style="width: 400px;"  value="<%=product.desc.wineType || ''%>"  type="text" name="wineType" /></div>
+                                            <div style="margin: 20px 0">
+                                                <span>葡萄品种：</span>
+                                                <input type="text"  value="<%=product.desc.grapeType || ''%>" name="grapeType" style="width: 400px;"  />
+                                                <span style="margin-left: 50px;">酒精浓度：</span>
+                                                <input   value="<%=product.desc.alcohol || ''%>" style="width: 400px;"  type="text" name="alcohol" /></div>
+                                            <div style="margin: 20px 0">
+                                                <span>配料：</span>
+                                                <input type="text"  value="<%=product.desc.material || ''%>"  name="material" style="width: 400px;"  /></div>
+
+                                            <div style="margin: 20px 0"><span>进口国：</span>
+                                                <input  value="<%=product.desc.entranceProp.place || ''%>" type="text" name="place" style="width: 400px;"  />
+                                                <span style="margin-left: 50px;">有无原产地证：</span>
+                                                <input   value="<%=product.desc.entranceProp.isHasCert || ''%>" style="width: 400px;"  type="text" name="isHasCert" /></div>
+                                            <div style="margin: 20px 0">
+                                                <span>进口码头：</span>
+                                                <input type="text"  value="<%=product.desc.entranceProp.importPort || ''%>"  name="importPort" style="width: 400px;"  />
+                                                <span style="margin-left: 50px;">货物清关状态：</span>
+                                                <input  value="<%=product.desc.entranceProp.clearanceStatus || ''%>" style="width: 400px;"  type="text" name="clearanceStatus" /></div>
+                                            <div style="margin: 20px 0">
+                                                <span>报关单号：</span>
+                                                <input type="text" value="<%=product.desc.entranceProp.bgNum || ''%>" name="bgNum" style="width: 400px;"  /></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-4"></div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label no-padding-right" for="title" style="text-align: left"> 轮播图： </label>
+
+                                        <div class="col-sm-12">
+                                            <input type="hidden" name="banners" value="<%=product.banners[0] || ''%>" id="banner1" />
+                                            <input type="hidden" name="banners" value="<%=product.banners[1] || ''%>" id="banner2" />
+                                            <input type="hidden" name="banners" value="<%=product.banners[2] || ''%>" id="banner3" />
+                                            <input type="hidden" name="banners" value="<%=product.banners[3] || ''%>" id="banner4" />
+                                            <div class="col-sm-6">
+                                                <input class="subject_logo" id="bannerFile1" multiple="" type="file" accept='image/*' />
+                                                <input class="subject_logo" id="bannerFile2" multiple="" type="file" accept='image/*' />
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input class="subject_logo" id="bannerFile3" multiple="" type="file" accept='image/*' />
+                                                <input class="subject_logo" id="bannerFile4" multiple="" type="file" accept='image/*' />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-4"></div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-12 control-label no-padding-right" for="title" style="text-align: left"> 产品图片： </label>
+                                        <input type="hidden" name="images" value="<%=product.desc.images[0] || ''%>" id="logo1" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[1] || ''%>" id="logo2" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[2] || ''%>" id="logo3" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[3] || ''%>" id="logo4" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[4] || ''%>" id="logo5" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[5] || ''%>" id="logo6" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[6] || ''%>" id="logo7" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[7] || ''%>" id="logo8" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[8] || ''%>" id="logo9" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[9] || ''%>" id="logo10" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[10] || ''%>" id="logo11" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[11] || ''%>" id="logo12" />
+                                        <input type="hidden" name="images" value="<%=product.desc.images[12] || ''%>" id="logo13" />
+                                        <div class="col-sm-6">
+                                            <input class="subject_logo" id="logoFile1" multiple="" type="file" accept='image/*' />
+                                            <input class="subject_logo" id="logoFile2" multiple="" type="file" accept='image/*' />
+                                            <input class="subject_logo" id="logoFile3" multiple="" type="file" accept='image/*' />
+                                            <input class="subject_logo" id="logoFile4" multiple="" type="file" accept='image/*' />
+                                            <input class="subject_logo" id="logoFile5" multiple="" type="file" accept='image/*' />
+                                            <input class="subject_logo" id="logoFile6" multiple="" type="file" accept='image/*' />
+                                            <input class="subject_logo" id="logoFile7" multiple="" type="file" accept='image/*' />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input class="subject_logo" id="logoFile8" multiple="" type="file" accept='image/*' />
+                                            <input class="subject_logo" id="logoFile9" multiple="" type="file" accept='image/*' />
+                                            <input class="subject_logo" id="logoFile10" multiple="" type="file" accept='image/*' />
+                                            <input class="subject_logo" id="logoFile11" multiple="" type="file" accept='image/*' />
+                                            <input class="subject_logo" id="logoFile12" multiple="" type="file" accept='image/*' />
+                                            <input class="subject_logo" id="logoFile13" multiple="" type="file" accept='image/*' />
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div class="hr hr-double dotted"></div>
+                            </div>
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div><!-- /.main-content -->
+    </div>
+</div>
+<input type="hidden" id="navLoc" value="3">
+<% include ../footer.ejs%>
+<script type="text/javascript">
+    jQuery(function($) {
+        $(' .subject_logo').ace_file_input({
+            no_file:'未选择图片 ...',
+            btn_choose:'选择图片',
+            btn_change:'更改图片',
+            no_icon:'icon-cloud-upload',
+            droppable:true,
+            thumbnail:'fit'
+        }).on('change', function(){
+        });
+    });
+
+</script>
+</body>
+</html>

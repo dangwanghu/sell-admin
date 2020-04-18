@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <% include ../header.ejs%>
+</head>
+<body>
+<% include ../top.ejs%>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <% include ../leftnav.ejs%>
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                    try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                </script>
+
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="/index">首页</a>
+                    </li>
+                    <li class="active">总码管理</li>
+                </ul><!-- .breadcrumb -->
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="table-header">
+                                    总码生成与管理（只能生成一次）
+                                </div>
+                                <div class="table-responsive">
+                                    <div style="margin-top: 50px;text-align: center">
+                                        <%if (qrCode == '1') {%>
+                                        <a class="btn btn-danger" onclick="javascript:createBase()">生成总码</a>
+                                        <%}%>
+                                    </div>
+                                    <div class="qr_code" style="text-align: center;padding-top: 10%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div><!-- /.main-content -->
+    </div>
+</div>
+<input type="hidden" id="navLoc" value="5">
+<% include ../footer.ejs%>
+<script src="/javascripts/jquery.qrcode.min.js"></script>
+<script type="text/javascript">
+
+    jQuery(function($) {
+        var qrCode = '<%=qrCode%>';
+        if (qrCode != '1') {
+            $('.qr_code').qrcode({
+                width: 300,
+                height: 300,
+                text: qrCode
+            });
+        }
+    })
+
+    function createBase() {
+        bootbox.confirm("确定要生成第一个二维码?", function(result) {
+            if(result) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/user/base',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            saveSuccessHideDialog(data.msg);
+                        } else {
+                            $().toastmessage('showErrorToast', data.msg);
+                        }
+                    },
+                    error: function (xhr) {
+                        console.info(JSON.parse(xhr.response).message)
+                    }
+                })
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

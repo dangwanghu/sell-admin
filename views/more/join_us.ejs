@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <% include ../header.ejs%>
+</head>
+<body>
+<% include ../top.ejs%>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <% include ../leftnav.ejs%>
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                    try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                </script>
+
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="/index">首页</a>
+                    </li>
+                    <li class="active">关于加盟</li>
+                </ul><!-- .breadcrumb -->
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="table-header">
+                                    移动端关于加盟页面编辑
+                                    <a class="white" style="float: right;margin-right: 10px;text-decoration: underline;" href="javascript:save()">
+                                        保存页面
+                                    </a>
+                                </div>
+                                <div class="wysiwyg-editor" id="editor1"></div>
+
+                                <div class="hr hr-double dotted"></div>
+                            </div>
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div><!-- /.main-content -->
+    </div>
+</div>
+<input type="hidden" id="navLoc" value="6">
+<% include ../footer.ejs%>
+<script src="/javascripts/bootstrap-wysiwyg.min.js"></script>
+<script src="/javascripts/jquery.hotkeys.min.js"></script>
+<script type="text/javascript">
+    jQuery(function($) {
+        function showErrorAlert (reason, detail) {
+            var msg='';
+            if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+            else {
+                console.log("error uploading file", reason, detail);
+            }
+            $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+
+                    '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+        }
+
+        $('#editor1').ace_wysiwyg({
+            toolbar: [
+                'font',
+                null,
+                'fontSize',
+                null,
+                {name: 'bold', className: 'btn-info'},
+                {name: 'italic', className: 'btn-info'},
+                {name: 'strikethrough', className: 'btn-info'},
+                {name: 'underline', className: 'btn-info'},
+                null,
+                {name: 'insertunorderedlist', className: 'btn-success'},
+                {name: 'insertorderedlist', className: 'btn-success'},
+                {name: 'outdent', className: 'btn-purple'},
+                {name: 'indent', className: 'btn-purple'},
+                null,
+                {name: 'justifyleft', className: 'btn-primary'},
+                {name: 'justifycenter', className: 'btn-primary'},
+                {name: 'justifyright', className: 'btn-primary'},
+                {name: 'justifyfull', className: 'btn-inverse'},
+                null,
+                {name: 'createLink', className: 'btn-pink'},
+                {name: 'unlink', className: 'btn-pink'},
+                null,
+                {name: 'insertImage', className: 'btn-success'},
+                null,
+                'foreColor',
+                null,
+                {name: 'undo', className: 'btn-grey'},
+                {name: 'redo', className: 'btn-grey'}
+            ],
+            'wysiwyg': {
+                fileUploadError: showErrorAlert
+            }
+        }).prev().addClass('wysiwyg-style2');
+
+        if ( typeof jQuery.ui !== 'undefined' && /applewebkit/.test(navigator.userAgent.toLowerCase()) ) {
+
+            var lastResizableImg = null;
+            function destroyResizable() {
+                if(lastResizableImg == null) return;
+                lastResizableImg.resizable( "destroy" );
+                lastResizableImg.removeData('resizable');
+                lastResizableImg = null;
+            }
+
+            var enableImageResize = function() {
+                $('.wysiwyg-editor')
+                        .on('mousedown', function(e) {
+                            var target = $(e.target);
+                            if( e.target instanceof HTMLImageElement ) {
+                                if( !target.data('resizable') ) {
+                                    target.resizable({
+                                        aspectRatio: e.target.width / e.target.height,
+                                    });
+                                    target.data('resizable', true);
+
+                                    if( lastResizableImg != null ) {//disable previous resizable image
+                                        lastResizableImg.resizable( "destroy" );
+                                        lastResizableImg.removeData('resizable');
+                                    }
+                                    lastResizableImg = target;
+                                }
+                            }
+                        })
+                        .on('click', function(e) {
+                            if( lastResizableImg != null && !(e.target instanceof HTMLImageElement) ) {
+                                destroyResizable();
+                            }
+                        })
+                        .on('keydown', function() {
+                            destroyResizable();
+                        });
+            }
+
+            enableImageResize();
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: '/html/join_us',
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    $('#editor1').html(data.msg);
+                } else {
+                    $().toastmessage('showErrorToast', '获取内容失败');
+                }
+            },
+            error: function (xhr) {
+                console.info(JSON.parse(xhr.response).message)
+            }
+        })
+    });
+
+    function save() {
+        if ($('#editor1').html() == '') {
+            $().toastmessage('showErrorToast', '内容不能为空');
+            return false;
+        }
+        $.ajax({
+            type: 'PUT',
+            url: '/html/join_us',
+            dataType: 'json',
+            data: {
+                text: $('#editor1').html()
+            },
+            success: function (data) {
+                if (data.success) {
+                    $().toastmessage('showSuccessToast', data.msg);
+                    setTimeout(function() {
+                        window.location.href = window.location.href;
+                    }, 1000);
+                } else {
+                    $().toastmessage('showErrorToast', data.msg);
+                }
+            },
+            error: function (xhr) {
+                console.info(xhr)
+                console.info(JSON.parse(xhr.response).message)
+            }
+        })
+    }
+
+
+
+</script>
+</body>
+</html>

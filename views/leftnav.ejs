@@ -1,0 +1,161 @@
+<div class="sidebar" id="sidebar">
+    <script type="text/javascript">
+        try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+    </script>
+
+    <ul class="nav nav-list">
+        <li nav="999">
+            <a href="/index">
+                <i class="icon-dashboard"></i>
+                <span class="menu-text"> 控制台 </span>
+            </a>
+        </li>
+
+        <% if(session.user.auth.indexOf('khgl') != -1) {%>
+        <li nav="0">
+            <a href="/user/list">
+                <i class="icon-user"></i>
+                <span class="menu-text">
+                    客户管理
+                </span>
+            </a>
+        </li>
+        <%}%>
+
+        <% if(session.user.auth.indexOf('ddgl') != -1) {%>
+        <li nav="1">
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-sort-by-order"></i>
+                <span class="menu-text">
+                    订单管理
+                </span>
+                <b class="arrow icon-angle-down"></b>
+            </a>
+            <ul class="submenu">
+                <li>
+                    <a href="/order/list?status=0">
+                        <i class="icon-double-angle-right"></i>
+                        待付款
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/order/list?status=1">
+                        <i class="icon-double-angle-right"></i>
+                        待发货
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/order/list?status=2">
+                        <i class="icon-double-angle-right"></i>
+                        已完成
+                    </a>
+                </li>
+                <li>
+                    <a href="/order/list?status=3">
+                        <i class="icon-double-angle-right"></i>
+                        待补单
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <%}%>
+
+        <% if(session.user.auth.indexOf('txgl') != -1) {%>
+        <li nav="2">
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-yen"></i>
+                <span class="menu-text">
+                    提现管理
+                </span>
+                <b class="arrow icon-angle-down"></b>
+            </a>
+            <ul class="submenu">
+                <li>
+                    <a href="/withdraw/list?status=0">
+                        <i class="icon-double-angle-right"></i>
+                        待处理
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/withdraw/list?status=1">
+                        <i class="icon-double-angle-right"></i>
+                        已提现
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/withdraw/list?status=2">
+                        <i class="icon-double-angle-right"></i>
+                        已驳回
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <%}%>
+
+        <% if(session.user.auth.indexOf('dylrtj') != -1) {%>
+        <li nav="4">
+            <a href="/order/statistics">
+                <i class="icon-zoom-out"></i>
+                <span class="menu-text">
+                    当月利润统计
+                </span>
+            </a>
+        </li>
+        <%}%>
+
+        <% if(session.user.auth.indexOf('xtgl_zmgl') != -1 || session.user.auth.indexOf('xtgl_czygl') != -1) {%>
+        <li nav="5">
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-gears"></i>
+                <span class="menu-text">
+                    系统管理
+                </span>
+                <b class="arrow icon-angle-down"></b>
+            </a>
+            <ul class="submenu">
+                <% if(session.user.auth.indexOf('xtgl_zmgl') != -1) {%>
+                <li>
+                    <a href="/user/base/info">
+                        <i class="icon-double-angle-right"></i>
+                        总码管理
+                    </a>
+                </li>
+                <%}%>
+                <% if(session.user.auth.indexOf('xtgl_czygl') != -1) {%>
+                <li>
+                    <a href="/user/operator/list">
+                        <i class="icon-double-angle-right"></i>
+                        操作员管理
+                    </a>
+                </li>
+                <%}%>
+            </ul>
+        </li>
+        <%}%>
+
+        <% if(session.user.auth.indexOf('gyjm') != -1) {%>
+        <li nav="6">
+            <a href="/more/join_us">
+                <i class="icon-picture"></i>
+                <span class="menu-text">
+                    关于加盟
+                </span>
+            </a>
+        </li>
+        <%}%>
+
+    </ul><!-- /.nav-list -->
+
+    <div class="sidebar-collapse" id="sidebar-collapse" style="margin-top: 50px;">
+        <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+    </div>
+
+    <script type="text/javascript">
+
+        try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+    </script>
+</div>

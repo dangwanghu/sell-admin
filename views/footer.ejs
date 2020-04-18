@@ -1,0 +1,43 @@
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='/javascripts/jquery-2.0.3.min.js'>"+"<"+"script>");
+</script>
+
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='/javascripts/jquery-1.10.2.min.js'>"+"<"+"script>");
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+    if("ontouchend" in document) document.write("<script src='/javascripts/jquery.mobile.custom.min.js'>"+"<"+"script>");
+</script>
+<script src="/javascripts/bootstrap.min.js"></script>
+<script src="/javascripts/typeahead-bs2.min.js"></script>
+
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+<script src="/javascripts/excanvas.min.js"></script>
+<![endif]-->
+
+<script src="/javascripts/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="/javascripts/jquery.ui.touch-punch.min.js"></script>
+<script src="/javascripts/jquery.slimscroll.min.js"></script>
+<script src="/javascripts/jquery.sparkline.min.js"></script>
+<!-- ace scripts -->
+
+<script src="/javascripts/ace-elements.min.js"></script>
+<script src="/javascripts/ace.min.js"></script>
+<script src="/javascripts/bootbox.min.js"></script>
+<script src="/javascripts/common.js"></script>
+
+<script src="/javascripts/jquery.toastmessage.js"></script>
+<link rel="stylesheet" href="/stylesheets/jquery.toastmessage.css" />
+<script type="text/javascript">
+    $('.sidebar .nav-list li').each(function(){
+        if($(this).attr('nav') == $('#navLoc').val()) {
+            $(this).addClass('active').siblings().removeClass('active');
+        }
+    });
+</script>

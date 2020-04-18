@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <% include ../header.ejs%>
+</head>
+<body>
+<% include ../top.ejs%>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <% include ../leftnav.ejs%>
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                    try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                </script>
+
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="/index">首页</a>
+                    </li>
+                    <li class="active">当月利润统计</li>
+                </ul><!-- .breadcrumb -->
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="table-header">
+                                    <span id="month"></span>月收入与支出统计结果, 合计利润：<span id="lirun" style="font-size: 23px;"></span> 元
+                                </div>
+                                <div class="table-responsive">
+                                    <div id="apply-charts"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div><!-- /.main-content -->
+    </div>
+</div>
+<input type="hidden" id="navLoc" value="4">
+<% include ../footer.ejs%>
+<script src="/javascripts/jquery.flot.min.js"></script>
+<script src="/javascripts/jquery.flot.resize.min.js"></script>
+<script type="text/javascript">
+
+    jQuery(function($) {
+
+        $.ajax({
+            type: 'GET',
+            url: '/order/statistics/json',
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    var month = new Date().getMonth() + 1;
+                    $('#month').text(month);
+                    $('#lirun').text(data.msg.amount)
+                    var d1 = [];
+                    var d2 = [];
+                    let msg = data.msg.list;
+                    for (var i = 0; i < msg.length; i++) {
+                        d1.push([msg[i].date.split('-')[2], msg[i].value.income]);
+                        d2.push([msg[i].date.split('-')[2], msg[i].value.outcome]);
+                    }
+;
+                    var sales_charts = $('#apply-charts').css({'width':'100%' , 'height':'520px', 'margin-top': '20px'});
+                    $.plot("#apply-charts", [
+                        { label: month + "月收入", data: d1, color: '#4c8fbd' },
+                        { label: month + "月支出", data: d2, color: '#CF6262' }
+                    ], {
+                        shadowSize: 0,
+                        series: {
+                            lines: { show: true },
+                            points: { show: true }
+                        },
+                        xaxis: {
+                            tickDecimals: 0
+                        },
+                        yaxis: {
+                            tickDecimals: 0
+                        },
+                        lines: {
+                            show: true
+                        },
+                        points: {
+                            show: true
+                        },
+                        grid: {
+                            backgroundColor: { colors: [ "#fff", "#fff" ] },
+                            borderWidth: 1,
+                            borderColor:'#999',
+                            hoverable: true,
+                            clickable: true
+                        },
+                        bars: {
+                            fillColor: { colors: [ { opacity: 0.8 }, { opacity: 0.1 } ] }
+                        }
+                    });
+
+                    var previousPoint = null;
+
+                    $("#apply-charts").bind("plothover", function (event, pos, item) {
+                        if (item) {
+                            if (previousPoint != item.dataIndex) {
+                                previousPoint = item.dataIndex;
+                                $("#tooltip").remove();
+                                var y = item.datapoint[1].toFixed(0);
+                                var tip = "金额：";
+                                showTooltip(item.pageX, item.pageY, tip + y + '元');
+                            }
+                        }
+                        else {
+                            $("#tooltip").remove();
+                            previousPoint = null;
+                        }
+                    });
+                } else {
+                    $().toastmessage('showErrorToast', '获取统计信息失败');
+                }
+            },
+            error: function (xhr) {
+                console.info(JSON.parse(xhr.response).message)
+            }
+        })
+    })
+
+    // 节点提示
+    function showTooltip(x, y, contents) {
+        $('<div id="tooltip" style="z-index:9999">' + contents + '</div>').css({
+            position: 'absolute',
+            display: 'none',
+            top: y + 10,
+            left: x + 10,
+            color: '#fff',
+            border: '1px solid #fdd',
+            padding: '2px',
+            'background-color': '#0C0C0C',
+            opacity: 0.80
+        }).appendTo("body").fadeIn(200);
+    }
+</script>
+</body>
+</html>
